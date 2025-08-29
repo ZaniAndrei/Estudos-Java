@@ -1,4 +1,3 @@
-// src/main/java/com/exemplo/CalculadoraDeFreteService.java
 
 public class CalculadoraDeFreteService {
     private static final double TARIFA_BASE_POR_KM = 1.5;
