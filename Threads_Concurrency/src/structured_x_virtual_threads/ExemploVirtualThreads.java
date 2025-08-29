@@ -8,12 +8,12 @@ import java.util.stream.IntStream;
 
 public class ExemploVirtualThreads {
 
-    // Um número alto de tarefas que seria impossível de lidar com threads de plataforma.
+    // Um número alto de tarefas que seria dificil de lidar com threads de plataforma.
     private static final int NUM_TAREFAS = 100_000;
 
     public static void main(String[] args) {
         System.out.println("### Iniciando demonstração com Threads de Plataforma ###");
-        // Nota: Esta primeira parte provavelmente vai falhar com um erro de memória.
+        // Esta primeira parte provavelmente vai falhar com um erro de memória.
         // Isso é esperado e serve para demonstrar a limitação.
         rodarComPlatformThreads();
 
@@ -35,9 +35,8 @@ public class ExemploVirtualThreads {
 
             IntStream.range(0, NUM_TAREFAS).forEach(i -> {
                 executor.submit(() -> {
-                    // Tarefa simples que simula uma operação de bloqueio
                     Thread.sleep(Duration.ofSeconds(1));
-                    // A linha abaixo raramente será impressa, pois o programa quebrará antes.
+                    // A linha abaixo pode não ser impressa, pois o programa quebrará antes.
                     //System.out.println("Tarefa de plataforma " + i + " finalizada.");
                     return i;
                 });
@@ -62,13 +61,13 @@ public class ExemploVirtualThreads {
     public static void rodarComVirtualThreads() {
         Instant start = Instant.now();
 
-        // newVirtualThreadPerTaskExecutor cria uma nova thread VIRTUAL para CADA tarefa.
+        // newVirtualThreadPerTaskExecutor cria uma nova thread virtual para cada tarefa.
         try (ExecutorService executor = Executors.newVirtualThreadPerTaskExecutor()) {
 
             IntStream.range(0, NUM_TAREFAS).forEach(i -> {
                 executor.submit(() -> {
                     // A tarefa é idêntica à anterior.
-                    // O código é o mesmo, mas a execução por baixo dos panos é radicalmente diferente.
+                    // O código é o mesmo, mas a execução por baixo dos panos é diferente.
                     //System.out.println("Iniciando tarefa virtual " + i + ". Rodando em: " + Thread.currentThread());
                     Thread.sleep(Duration.ofSeconds(1));
                     // System.out.println("Tarefa virtual " + i + " finalizada.");
