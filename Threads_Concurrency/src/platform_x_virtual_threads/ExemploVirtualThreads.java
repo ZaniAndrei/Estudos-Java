@@ -1,4 +1,4 @@
-package structured_x_virtual_threads;
+package platform_x_virtual_threads;
 
 import java.time.Duration;
 import java.time.Instant;
