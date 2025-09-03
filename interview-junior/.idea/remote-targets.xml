@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="RemoteTargetsManager">
+    <targets>
+      <target name="db" type="docker-compose" uuid="2afffb20-1013-4aa4-abdd-6359886927fa">
+        <config>
+          <option name="targetPlatform">
+            <TargetPlatform />
+          </option>
+          <option name="configurationFiles">
+            <list>
+              <option value="C:\Guia Gubee\interview-junior\core\src\main\docker\docker-compose.yml" />
+            </list>
+          </option>
+          <option name="serviceName" value="db" />
+        </config>
+        <ContributedStateBase type="JavaLanguageRuntime">
+          <config />
+        </ContributedStateBase>
+      </target>
+    </targets>
+  </component>
+</project>
