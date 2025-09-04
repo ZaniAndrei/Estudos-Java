@@ -12,6 +12,8 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+import java.util.UUID;
+
 import static lombok.AccessLevel.PRIVATE;
 
 @Data
@@ -46,4 +48,7 @@ public class CreateHeroRequest {
     @Max(value = 10, message = "message.powerstats.intelligence.max")
     @NotNull(message = "message.powerstats.intelligence.mandatory")
     private int intelligence;
+
+    //@NotNull(message = "message.powerstats.power_stats_id.mandatory")
+    //private UUID power_stats_id;
 }

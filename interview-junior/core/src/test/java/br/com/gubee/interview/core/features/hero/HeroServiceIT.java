@@ -1,11 +1,15 @@
 package br.com.gubee.interview.core.features.hero;
 
+import br.com.gubee.interview.core.features.powerstats.PowerStatsService;
+import br.com.gubee.interview.model.PowerStats;
 import br.com.gubee.interview.model.enums.Race;
 import br.com.gubee.interview.model.request.CreateHeroRequest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
+
+import java.util.UUID;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("it")
@@ -14,8 +18,12 @@ public class HeroServiceIT {
     @Autowired
     private HeroService heroService;
 
+    @Autowired
+    private PowerStatsService powerStatsService;
+
     @Test
     public void createHeroWithAllRequiredArguments() {
+
         heroService.create(createHeroRequest());
     }
 
