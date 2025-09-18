@@ -27,6 +27,7 @@ public class HeroServiceIT {
         heroService.create(createHeroRequest());
     }
 
+
     private CreateHeroRequest createHeroRequest() {
         return CreateHeroRequest.builder()
             .name("Batman")

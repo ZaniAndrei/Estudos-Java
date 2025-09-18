@@ -49,6 +49,4 @@ public class CreateHeroRequest {
     @NotNull(message = "message.powerstats.intelligence.mandatory")
     private int intelligence;
 
-    //@NotNull(message = "message.powerstats.power_stats_id.mandatory")
-    //private UUID power_stats_id;
 }

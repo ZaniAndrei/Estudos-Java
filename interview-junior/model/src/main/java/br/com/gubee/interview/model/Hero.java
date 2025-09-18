@@ -2,6 +2,7 @@ package br.com.gubee.interview.model;
 
 import br.com.gubee.interview.model.enums.Race;
 import br.com.gubee.interview.model.request.CreateHeroRequest;
+import br.com.gubee.interview.model.request.UpdateHeroRequest;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -24,11 +25,16 @@ public class Hero {
     private UUID powerStatsId;
     private Instant createdAt;
     private Instant updatedAt;
+    private PowerStats powerStats;
     private boolean enabled;
 
     public Hero(CreateHeroRequest createHeroRequest, UUID powerStatsId) {
         this.name = createHeroRequest.getName();
         this.race = createHeroRequest.getRace();
         this.powerStatsId = powerStatsId;
+    }
+    public Hero(UpdateHeroRequest updateHeroRequest){
+        this.name = updateHeroRequest.getName();
+        this.race = updateHeroRequest.getRace();
     }
 }

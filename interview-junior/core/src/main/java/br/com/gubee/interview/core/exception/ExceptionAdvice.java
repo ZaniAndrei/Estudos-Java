@@ -1,9 +1,12 @@
 package br.com.gubee.interview.core.exception;
 
+import br.com.gubee.interview.core.features.hero.exception.NameNotFoundException;
+import br.com.gubee.interview.core.features.hero.exception.ResourceNotFoundException;
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.util.StringUtils;
@@ -16,6 +19,8 @@ import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
+import javax.servlet.http.HttpServletRequest;
+import java.time.Instant;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -32,6 +37,23 @@ public class ExceptionAdvice {
     ResponseEntity<Object> handleGeneralException(Exception e) {
         log.error("Uncaught exception, message={}", e.getMessage(), e);
         return status(INTERNAL_SERVER_ERROR).body(e.getMessage());
+    }
+
+    @ExceptionHandler(ResourceNotFoundException.class)
+    public ResponseEntity<StandardError> handleException(ResourceNotFoundException e, HttpServletRequest request){
+        String error = "Resource not found";
+        HttpStatus status = HttpStatus.NOT_FOUND;
+        StandardError err = new StandardError(Instant.now(),
+                status.value(),
+                error,
+                e.getMessage(),
+                request.getRequestURI());
+        return ResponseEntity.status(status).body(err);
+    }
+
+    @ExceptionHandler(NameNotFoundException.class)
+    public ResponseEntity<Void> handleException(NameNotFoundException e, HttpServletRequest request){
+        return ResponseEntity.status(HttpStatus.OK).body(null);
     }
 
     @ExceptionHandler(value = {IllegalArgumentException.class, MethodArgumentTypeMismatchException.class})
