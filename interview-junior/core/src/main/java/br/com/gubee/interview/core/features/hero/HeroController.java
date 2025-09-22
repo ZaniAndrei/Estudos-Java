@@ -43,9 +43,9 @@ public class HeroController {
         return ResponseEntity.ok().body(hero);
     }
     @GetMapping(value = "/name/{name}")
-    public ResponseEntity<List<Hero>> findByName(@PathVariable String name) {
-        List<Hero> heroList = heroService.findHeroByName(name);
-        return ResponseEntity.ok().body(heroList);
+    public ResponseEntity<Hero> findByName(@PathVariable String name) {
+        Hero hero = heroService.findHeroByName(name);
+        return ResponseEntity.ok().body(hero);
     }
 
     @GetMapping(value = "compare/{id1}/{id2}")
@@ -53,7 +53,6 @@ public class HeroController {
         HeroComparison heroCompare = heroService.heroComparison(id1, id2);
         return ResponseEntity.ok().body(heroCompare);
     }
-
 
 
     @PutMapping(value = "/{id}")

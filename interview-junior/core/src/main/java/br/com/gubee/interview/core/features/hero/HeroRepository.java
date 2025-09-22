@@ -97,13 +97,13 @@ public class HeroRepository{
             UUID.class);
     }
 
-   Optional<List<Hero>> findHeroByName(String name){
+   Optional<Hero> findHeroByName(String name){
         List<Hero> results = namedParameterJdbcTemplate.query(
                 FIND_HERO_NAME_QUERY,
                 Map.of("name", name),
                 heroRowMapper
         );
-       return results.isEmpty() ? Optional.empty() : Optional.of(results);
+       return results.isEmpty() ? Optional.empty() : Optional.of(results.get(0));
 
    }
 

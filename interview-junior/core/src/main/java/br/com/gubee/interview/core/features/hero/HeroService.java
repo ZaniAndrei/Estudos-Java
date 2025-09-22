@@ -39,8 +39,8 @@ public class HeroService {
 
     }
 
-    public List<Hero> findHeroByName(String name) {
-        Optional<List<Hero>> obj = heroRepository.findHeroByName(name);
+    public Hero findHeroByName(String name) {
+        Optional<Hero> obj = heroRepository.findHeroByName(name);
         return obj.orElseThrow(()->new NameNotFoundException(name));
     }
 
@@ -51,6 +51,7 @@ public class HeroService {
         heroRepository.update(id, new Hero(updateHeroRequest));
 
         }
+
     @Transactional
     public void delete(UUID id) {
         Hero hero = findById(id);
