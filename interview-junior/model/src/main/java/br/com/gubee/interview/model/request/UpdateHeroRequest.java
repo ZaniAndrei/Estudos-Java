@@ -26,17 +26,17 @@ public class UpdateHeroRequest {
 
     @Min(value = 0, message = "message.powerstats.strength.min")
     @Max(value = 10, message = "message.powerstats.strength.max")
-    private int strength;
+    private Integer strength;
 
     @Min(value = 0, message = "message.powerstats.agility.min")
     @Max(value = 10, message = "message.powerstats.agility.max")
-    private int agility;
+    private Integer agility;
 
     @Min(value = 0, message = "message.powerstats.dexterity.min")
     @Max(value = 10, message = "message.powerstats.dexterity.max")
-    private int dexterity;
+    private Integer dexterity;
 
     @Min(value = 0, message = "message.powerstats.intelligence.min")
     @Max(value = 10, message = "message.powerstats.intelligence.max")
-    private int intelligence;
+    private Integer intelligence;
 }
