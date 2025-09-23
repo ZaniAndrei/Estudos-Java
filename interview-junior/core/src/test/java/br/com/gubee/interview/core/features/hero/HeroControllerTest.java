@@ -215,7 +215,7 @@ class HeroControllerTest {
 
     @Test
     public void shouldNotAllowOutOfRangeCreationMax() throws Exception {
-        UpdateHeroRequest invalidRequestMax = UpdateHeroRequest.builder()
+        CreateHeroRequest invalidRequestMax = CreateHeroRequest.builder()
                 .name("Invalid")
                 .race(Race.HUMAN)
                 .agility(11)
@@ -270,6 +270,95 @@ class HeroControllerTest {
                         "message.powerstats.intelligence.min"
                 )));
 
+
+    }
+
+    @Test
+    public void shouldNotAllowOutOfRangeUpdateMax() throws Exception {
+        UUID id = UUID.randomUUID();
+        UpdateHeroRequest invalidRequestMax = UpdateHeroRequest.builder()
+                .name("Invalid")
+                .race(Race.HUMAN)
+                .agility(11)
+                .dexterity(11)
+                .intelligence(11)
+                .strength(11)
+                .build();
+        final ResultActions resultActions = mockMvc.perform(
+                put("/api/v1/heroes/{id}", id)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(invalidRequestMax))
+        );
+
+        resultActions.andExpect(status().isBadRequest()) // Garante o status 400
+                .andExpect(jsonPath("$").isArray())
+                .andExpect(jsonPath("$", hasSize(4)))
+                .andExpect(jsonPath("$", containsInAnyOrder(
+                        "message.powerstats.strength.max",
+                        "message.powerstats.agility.max",
+                        "message.powerstats.dexterity.max",
+                        "message.powerstats.intelligence.max"
+                )));
+
+    }
+
+    @Test
+    public void shouldNotAllowOutOfRangeUpdateMin() throws Exception {
+        UUID id = UUID.randomUUID();
+        UpdateHeroRequest invalidRequestMin = UpdateHeroRequest.builder()
+
+                .name("Invalid")
+                .race(Race.HUMAN)
+                .agility(-1)
+                .dexterity(-1)
+                .intelligence(-1)
+                .strength(-1)
+                .build();
+
+        final ResultActions resultActions = mockMvc.perform(
+                put("/api/v1/heroes/{id}", id)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(invalidRequestMin))
+        );
+
+        resultActions.andExpect(status().isBadRequest()) // Garante o status 400
+                .andExpect(jsonPath("$").isArray())
+                .andExpect(jsonPath("$", hasSize(4)))
+                .andExpect(jsonPath("$", containsInAnyOrder(
+                        "message.powerstats.strength.min",
+                        "message.powerstats.agility.min",
+                        "message.powerstats.dexterity.min",
+                        "message.powerstats.intelligence.min"
+                )));
+
+
+    }
+
+
+
+
+
+    @Test
+    public void shouldNotAllowMandatoryFieldsMissing() throws Exception {
+        CreateHeroRequest invalidRequestMin = CreateHeroRequest.builder()
+                .build();
+        final ResultActions resultActions = mockMvc.perform(
+                post("/api/v1/heroes")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(invalidRequestMin))
+        );
+
+        resultActions.andExpect(status().isBadRequest()) // Garante o status 400
+                .andExpect(jsonPath("$").isArray())
+                .andExpect(jsonPath("$", hasSize(6)))
+                .andExpect(jsonPath("$", containsInAnyOrder(
+                        "message.powerstats.intelligence.mandatory",
+                        "message.powerstats.dexterity.mandatory",
+                        "message.name.mandatory",
+                        "message.powerstats.agility.mandatory",
+                        "message.race.mandatory",
+                        "message.powerstats.strength.mandatory"
+                )));
 
     }
 
