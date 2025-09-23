@@ -21,6 +21,8 @@ import javax.transaction.Transactional;
 import java.util.UUID;
 
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.Matchers.containsInAnyOrder;
+import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -209,6 +211,66 @@ class HeroControllerTest {
         );
         resultActions.andExpect(status().isNotFound());
         verify(heroService, times(1)).delete(id);
+    }
+
+    @Test
+    public void shouldNotAllowOutOfRangeCreationMax() throws Exception {
+        UpdateHeroRequest invalidRequestMax = UpdateHeroRequest.builder()
+                .name("Invalid")
+                .race(Race.HUMAN)
+                .agility(11)
+                .dexterity(11)
+                .intelligence(11)
+                .strength(11)
+                .build();
+        final ResultActions resultActions = mockMvc.perform(
+                post("/api/v1/heroes")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(invalidRequestMax))
+        );
+
+        resultActions.andExpect(status().isBadRequest()) // Garante o status 400
+                .andExpect(jsonPath("$").isArray())
+                .andExpect(jsonPath("$", hasSize(4)))
+                .andExpect(jsonPath("$", containsInAnyOrder(
+                        "message.powerstats.strength.max",
+                        "message.powerstats.agility.max",
+                        "message.powerstats.dexterity.max",
+                        "message.powerstats.intelligence.max"
+                )));
+
+    }
+
+    @Test
+    public void shouldNotAllowOutOfRangeCreationMin() throws Exception {
+
+        CreateHeroRequest invalidRequestMin = CreateHeroRequest.builder()
+
+                .name("Invalid")
+                .race(Race.HUMAN)
+                .agility(-1)
+                .dexterity(-1)
+                .intelligence(-1)
+                .strength(-1)
+                .build();
+
+        final ResultActions resultActions = mockMvc.perform(
+                post("/api/v1/heroes")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(invalidRequestMin))
+        );
+
+        resultActions.andExpect(status().isBadRequest()) // Garante o status 400
+                .andExpect(jsonPath("$").isArray())
+                .andExpect(jsonPath("$", hasSize(4)))
+                .andExpect(jsonPath("$", containsInAnyOrder(
+                        "message.powerstats.strength.min",
+                        "message.powerstats.agility.min",
+                        "message.powerstats.dexterity.min",
+                        "message.powerstats.intelligence.min"
+                )));
+
+
     }
 
     private CreateHeroRequest createHeroRequest() {
