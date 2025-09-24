@@ -335,9 +335,6 @@ class HeroControllerTest {
     }
 
 
-
-
-
     @Test
     public void shouldNotAllowMandatoryFieldsMissing() throws Exception {
         CreateHeroRequest invalidRequestMin = CreateHeroRequest.builder()

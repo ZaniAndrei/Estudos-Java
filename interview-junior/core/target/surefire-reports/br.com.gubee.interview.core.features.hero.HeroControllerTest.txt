@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: br.com.gubee.interview.core.features.hero.HeroControllerTest
 -------------------------------------------------------------------------------
-Tests run: 11, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 5.123 s - in br.com.gubee.interview.core.features.hero.HeroControllerTest
+Tests run: 16, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 4.993 s - in br.com.gubee.interview.core.features.hero.HeroControllerTest
